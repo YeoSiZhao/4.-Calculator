@@ -1,12 +1,12 @@
 let toCalculateHTML = "";
 let string = "";
-let previousResult = false;
+let previousResultExist = false;
 let enterPrev = false;
 let prevResult;
 
-let array = [];
-let values = [];
-let ops = [];
+let array = []; // ["3", "+", "2"]
+let values = []; // [3,2]
+let ops = []; // ["+"]
 
 const answer = document.querySelector(".js-answer");
 const equation = document.querySelector(".js-equation");
@@ -15,21 +15,18 @@ document.querySelectorAll(".button").forEach((btn) => {
     btn.addEventListener('click', () => {
         const value = btn.dataset.value;
         toCalculateHTML += value;
-        if (previousResult && isNaN(value)){
-            console.log(array);
-            prevResult = localStorage.getItem("previous-result");
+        if (previousResultExist && isNaN(value)){
             array.push(Number(prevResult));
-            console.log(array);
             equation.innerHTML = prevResult;
-            previousResult = false;
+            previousResultBool = false;
             enterPrev = true;
         }
-        previousResult = false;
+        previousResultExist = false;
         if(!isNaN(value) || value == ".") //is a number
         {
             string += value;
         }
-        else // not is a number
+        else // not a number
         {
             if (string != "")
             {
@@ -37,6 +34,14 @@ document.querySelectorAll(".button").forEach((btn) => {
             }
             array.push(value);
             string = "";
+        }
+        for (let index = 0; index < array.length; index += 1)
+        {   
+            if (isNaN(array[index]) && (index + 1 < array.length && isNaN(array[index + 1]))) 
+            {
+                handleError();
+                return;
+            }
         }
         answer.innerHTML = toCalculateHTML;
     });
@@ -47,11 +52,21 @@ document.querySelector(".equals").addEventListener('click',() => {
     {
         array.push(string);
     }
+    if (isNaN(array[array.length-1]))
+    {
+        handleError();
+        return;
+    }
+    console.log(array);
 
-    const result = calculate();
+    let result = calculate();
+    if (result % 1 != 0)
+    {
+            result = result.toFixed(2);
+    }
     array = [];
-    previousResult = true;
-    localStorage.setItem("previous-result",result.toString());
+    previousResultExist = true;
+    prevResult = result;
     if (enterPrev) {
         equation.innerHTML = prevResult.toString() + toCalculateHTML;
     }
@@ -59,7 +74,7 @@ document.querySelector(".equals").addEventListener('click',() => {
     {
         equation.innerHTML = toCalculateHTML;
     }
-    answer.innerHTML = result;
+    answer.innerHTML = result
     enterPrev = false;
     toCalculateHTML = "";
     string = "";
@@ -70,14 +85,7 @@ document.querySelector(".equals").addEventListener('click',() => {
 
 document.querySelector(".clear").addEventListener('click', () => {
     answer.innerHTML = "0";
-    equation.innerHTML = "";
-    toCalculateHTML = "";
-    previousResult = false;
-    localStorage.setItem("previous-result","");
-    string = "";
-    array = [];
-    values = [];
-    ops = [];
+    clear();
 });
 
 const operators = {
@@ -88,7 +96,6 @@ const operators = {
 };
 
 function calculate() {
-    console.log(array);
     array.forEach((thing) => {
         if (!isNaN(thing)) // a number 
         {
@@ -116,4 +123,22 @@ function evaluate() {
     const a = values.pop();
     const op = ops.pop();
     return operators[op](a,b);
+}
+
+function handleError()
+{
+    answer.innerHTML = "Error";
+    clear();
+}
+
+function clear(){
+    equation.innerHTML = "";
+    toCalculateHTML = "";
+    previousResultExist = false;
+    enterPrev = false;
+    prevResult = "";
+    string = "";
+    array = [];
+    values = [];
+    ops = [];
 }
