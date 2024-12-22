@@ -1,0 +1,75 @@
+body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.main {
+        padding: 20px;
+        border: 2px solid rgb(44, 44, 44);
+        border-radius: 10px; 
+        background-color: #eed1c8; 
+}
+
+.display {
+    border-style:solid;
+    border-width: 1px;
+    font-size: bold;
+    width:438px;
+    height:90px;
+    background-color: rgb(44, 44, 44);
+    color: white;
+    border-radius: 6px;
+    display: grid; 
+    grid-template-rows: 1fr 4fr;
+}
+
+.js-equation {
+    font-size: 15px;
+    display:flex;
+    justify-content: flex-end; 
+    align-items: center; 
+    padding-top:5px;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+.js-answer {
+    font-size: 50px;
+    display:flex;
+    justify-content: flex-end; 
+    align-items: center; 
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+
+.button,.equals,.clear {
+    color: white;
+    background-color: rgb(44, 44, 44);
+    border-radius: 7px;
+    font-size: 20px;
+    padding: 15px;
+    width: 80px;
+    cursor: pointer;
+    border:none;
+    margin-top: 1px;
+}
+
+.clear {
+    width: 100px;
+}
+
+.button:hover,
+.clear:hover {
+    background-color: rgb(98, 98, 98);
+}
+
+.equals {
+    width: 80px;
+    background-color: rgb(99, 169, 255);
+    color: rgb(255, 255, 255);
+}
+.equals:hover {
+    background-color: rgb(160, 199, 247);
+}
