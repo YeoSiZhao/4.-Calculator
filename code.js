@@ -62,11 +62,11 @@ document.querySelector(".equals").addEventListener('click',() => {
     let result = calculate();
     if (result % 1 != 0)
     {
-            result = result.toFixed(2);
+        result = result.toFixed(2);
     }
     array = [];
     previousResultExist = true;
-    prevResult = result;
+    
     if (enterPrev) {
         equation.innerHTML = prevResult.toString() + toCalculateHTML;
     }
@@ -74,6 +74,7 @@ document.querySelector(".equals").addEventListener('click',() => {
     {
         equation.innerHTML = toCalculateHTML;
     }
+    prevResult = result;
     answer.innerHTML = result
     enterPrev = false;
     toCalculateHTML = "";
